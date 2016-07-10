@@ -42,11 +42,17 @@ Theta_grad = zeros(size(Theta));
 
 X_Theta = X * Theta';
 
-J = (1/2) * sum(sum(((X_Theta - Y).^2) .* R)); 
+regularization_theta = (lambda/2) * sum(Theta(:).^2);
+regularization_x = (lambda/2) * sum(X(:).^2);
 
-X_grad = ((X_Theta - Y) .* R) * Theta;
+J = (1/2) * sum(sum(((X_Theta - Y).^2) .* R)) + regularization_theta + regularization_x; 
 
-Theta_grad = ((X_Theta - Y) .* R)' * X;
+regularization_grad_x = lambda * X;
+regularization_grad_theta = lambda * Theta;
+
+X_grad = ((X_Theta - Y) .* R) * Theta + regularization_grad_x;
+
+Theta_grad = ((X_Theta - Y) .* R)' * X + regularization_grad_theta;
 
  
 
